@@ -5,18 +5,21 @@
 
 (require 'package)
 ;; common lisp
-(require 'cl) 
+(require 'cl)
 
-(package-initialize)
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
+(package-initialize)
+
 (defvar my-packages
-  '(haskell-mode 
-    markdown-mode 
-    projectile 
-    python		 
-    solarized-theme 
+  '(haskell-mode
+    markdown-mode
+    projectile
+    python
+    rust-mode
+    solarized-theme
     zenburn-theme org)
   )
 
@@ -66,3 +69,4 @@
           (set-visited-file-name new-name t t)))))))
 
 (global-set-key (kbd "C-c r")  'rename-file-and-buffer)
+(put 'narrow-to-region 'disabled nil)
