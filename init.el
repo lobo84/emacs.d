@@ -44,7 +44,7 @@
     (when (not (package-installed-p p))
       (package-install p))))
 
-;;(load-theme 'solarized t)
+(load-theme 'solarized-dark t)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
