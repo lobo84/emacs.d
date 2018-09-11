@@ -11,7 +11,7 @@
 (setq package-enable-at-startup nil)
 (setq package-archives '(("org"   . "http://orgmode.org/elpa/")
                          ("gnu"   . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
 ;; Bootstrap `use-package`
@@ -19,20 +19,6 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (require 'use-package)
-
-(use-package dynamic-fonts
-  :ensure dynamic-fonts
-  :init
-  (progn (setq dynamic-fonts-preferred-proportional-fonts
-               '("Source Sans Pro" "DejaVu Sans" "Helvetica"))
-         (setq dynamic-fonts-preferred-monospace-fonts
-               '("Source Code Pro" "Inconsolata" "Monaco" "Consolas" "Menlo"
-                 "DejaVu Sans Mono" "Droid Sans Mono Pro" "Droid Sans Mono")))
-  :config
-  (if initial-window-system
-      (dynamic-fonts-setup)
-    (add-to-list 'after-make-frame-functions
-                 (lambda (frame) (dynamic-fonts-setup)))))
 
 (use-package undo-tree
   :ensure t)
@@ -46,10 +32,6 @@
   :config
   (spaceline-spacemacs-theme))
 
-
-;(use-package powerline
-;  :init
-;  (powerline-default-theme))
 
 (use-package elpy
   :ensure t
@@ -102,37 +84,24 @@
   :init
   (load-theme 'solarized-light 'no-confirm))
 
-(use-package leuven-theme
-  :ensure t
-  :disabled t
-  :init (load-theme 'leuven 'no-confirm))
-
-(use-package faff-theme
-  :ensure t
-  :disabled t
-  :init (load-theme 'faff 'no-confirm))
-
-;; Helm
-(use-package helm
-  :ensure t
-  :bind (("M-x" . helm-M-x)
-         ("C-x C-f" . helm-find-files)
-         ("C-x f" . helm-recentf)
-         ("C-x b" . helm-buffers-list)) 
-  :config (progn
-	    (setq helm-buffers-fuzzy-matching t)
-            (helm-mode 1)))
+(use-package dynamic-fonts
+  :ensure dynamic-fonts
+  :config
+  (progn
+    (setq dynamic-fonts-preferred-monospace-point-size 12)
+    (setq dynamic-fonts-preferred-proportional-point-size 12)
+    (setq dynamic-fonts-preferred-monospace-fonts
+          '("Source Code Pro" "Roboto Mono" "Ubuntu Mono"
+            "Consolas" "Courier New" "Monospace"))
+    (dynamic-fonts-setup)))
 
 (use-package projectile
   :ensure t
+  :init
+  (setq projectile-keymap-prefix (kbd "C-c p"))
   :config
   (projectile-global-mode)
   (setq projectile-enable-caching t))
-
-(use-package helm-projectile
-  :ensure t
-  :config
-  (helm-projectile-on))
 
 (use-package image-file
   :init (auto-image-file-mode))
@@ -145,17 +114,17 @@
   (setq which-key-prefix-prefix "+")
   :config
   (which-key-mode))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (spaceline which-key use-package unicode-fonts spacemacs-theme python-mode powerline material-theme jedi helm-projectile elpy dynamic-fonts doom-themes company-statistics company-jedi))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(use-package magit
+  :commands magit-get-top-dir
+  :bind (("C-x g" . magit-status)))
+
+;; run omnisharp-install-server
+(use-package omnisharp
+  :after company
+  :config
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+  (add-to-list 'company-backends 'company-omnisharp)
+  (define-key omnisharp-mode-map (kbd "<C-.>") 'omnisharp-add-dot-and-auto-complete))
+;;  (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete))
+  ;;(define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
