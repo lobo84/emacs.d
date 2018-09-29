@@ -61,6 +61,23 @@
   :config
   (global-company-mode))
 
+(use-package flycheck
+  :pin melpa
+  :ensure t
+  :init (global-flycheck-mode))
+
+(use-package cmake-mode :ensure t :pin melpa)
+
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status)))
+
+(use-package cmake-ide
+  :pin melpa
+  :config (progn (require 'rtags))
+  :ensure t
+  :init
+  (cmake-ide-setup))
 
 (use-package paren
   :init (show-paren-mode)
@@ -121,10 +138,9 @@
 
 ;; run omnisharp-install-server
 (use-package omnisharp
+  :if (memq window-system '(w32))
   :after company
   :config
   (add-hook 'csharp-mode-hook 'omnisharp-mode)
   (add-to-list 'company-backends 'company-omnisharp)
   (define-key omnisharp-mode-map (kbd "<C-.>") 'omnisharp-add-dot-and-auto-complete))
-;;  (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete))
-  ;;(define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
