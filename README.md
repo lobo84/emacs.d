@@ -12,12 +12,10 @@ ln -s emacs.d ~/.emacs.d
 c++
 ----
 
-Install RTags: https://github.com/Andersbakken/rtags
+run M-x rtags-install
 
-in init.el put the build directory:
+Create a file .dir-locals.el in your cmake project.
 
-(setq cmake-ide-build-dir "/home/niclas/projects/test2/build")
+Example content:
 
-Create empty file:
-
-~/.emacs.d/irony/cdb-json-projects
+(nil . ((cmake-ide-project-dir . "/home/niclas/tmp/build")))

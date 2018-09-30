@@ -46,38 +46,23 @@
     (elpy-enable)
     (setq elpy-rpc-backend "jedi")))
 
-(use-package company
-  :ensure t
-  :diminish ""
-  :commands global-company-mode
-  :init
-  (setq company-idle-delay 0.2
-        company-selection-wrap-around t
-        company-minimum-prefix-length 2
-        company-require-match nil
-        company-dabbrev-ignore-case nil
-        company-dabbrev-downcase nil
-        company-show-numbers t)
-  :config
-  (global-company-mode))
-
-(use-package flycheck
-  :pin melpa
-  :ensure t
-  :init (global-flycheck-mode))
-
-(use-package cmake-mode :ensure t :pin melpa)
 
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status)))
 
+(use-package rtags
+  :pin melpa
+  :ensure t)
+
 (use-package cmake-ide
   :pin melpa
-  :config (progn (require 'rtags))
+  :config (setq-default indent-tabs-mode nil)
   :ensure t
   :init
+  (require 'rtags)
   (cmake-ide-setup))
+
 
 (use-package paren
   :init (show-paren-mode)
